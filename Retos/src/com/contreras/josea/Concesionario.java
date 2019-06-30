@@ -8,7 +8,8 @@ public class Concesionario {
     SortedSet<Coche> listadosorted;
 
     public Concesionario() {
-        this.listadosorted =  new TreeSet<Coche>(new compararCoche());
+        //this.listadosorted =  new TreeSet<Coche>(new compararCoche());
+        this.listadosorted =  new TreeSet<Coche>(new CocheComparator());
     }
 
     public  void nuevoCoche(Coche coche){
@@ -23,20 +24,21 @@ public class Concesionario {
         this.listadosorted = listadosorted;
     }
 
-    public void comprarChoce(Cliente cliente, Coche coche) {
+    public void comprarChoce(Cliente cliente, Coche coche) throws  IllegalArgumentException{
         if(esVacio(cliente,coche)){
             throw new IllegalArgumentException("Argumento recibido nulo");
         }
         if (!esPudiente(cliente,coche)){
-            throw new IllegalArgumentException("El cliente no dispone suficiente dinero para comprar este coche");
+            throw new IllegalArgumentException("El cliente:"+ cliente.getNombre() +" no dispone suficiente dinero para comprar este coche");
         }
         if(!listadosorted.contains(coche)){
-            throw new IllegalArgumentException("El coche no es de este concesionario");
+            throw new IllegalArgumentException("El coche no pertenece a este concesionario");
         }
         if(listadosorted.remove(coche)){
             List<Coche> temp = cliente.getListaCoches();
             temp.add(coche);
             cliente.setListaCoches(temp);
+            cliente.setPresupuesto(cliente.getPresupuesto()-coche.getPrecio());
         }
     }
 
