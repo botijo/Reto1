@@ -25,21 +25,27 @@ public class Concesionario {
     }
 
     public void comprarChoce(Cliente cliente, Coche coche) throws  IllegalArgumentException{
-        if(esVacio(cliente,coche)){
-            throw new IllegalArgumentException("Argumento recibido nulo");
-        }
-        if (!esPudiente(cliente,coche)){
-            throw new IllegalArgumentException("El cliente:"+ cliente.getNombre() +" no dispone suficiente dinero para comprar este coche");
-        }
-        if(!listadosorted.contains(coche)){
-            throw new IllegalArgumentException("El coche no pertenece a este concesionario");
-        }
-        if(listadosorted.remove(coche)){
-            List<Coche> temp = cliente.getListaCoches();
-            temp.add(coche);
-            cliente.setListaCoches(temp);
-            cliente.setPresupuesto(cliente.getPresupuesto()-coche.getPrecio());
-        }
+    	try {
+            if(esVacio(cliente,coche)){
+                throw new IllegalArgumentException("Argumento recibido nulo");
+            }
+            if (!esPudiente(cliente,coche)){
+                throw new IllegalArgumentException("El cliente:"+ cliente.getNombre() +" no dispone suficiente dinero para comprar este coche");
+            }
+            if(!listadosorted.contains(coche)){
+                throw new IllegalArgumentException("El coche no pertenece a este concesionario");
+            }
+            if(listadosorted.remove(coche)){
+                List<Coche> temp = cliente.getListaCoches();
+                temp.add(coche);
+                cliente.setListaCoches(temp);
+                cliente.setPresupuesto(cliente.getPresupuesto()-coche.getPrecio());
+            }
+			
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+
     }
 
     public Boolean esVacio(Cliente cliente, Coche coche){

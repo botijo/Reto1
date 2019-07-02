@@ -45,7 +45,7 @@ public class test {
             concesionario.comprarChoce(cliente1, coche1);
             mostrarDatos(cliente1, cliente2, concesionario);
 
-        }catch (IllegalArgumentException e){
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
 
